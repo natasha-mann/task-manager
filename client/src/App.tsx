@@ -1,5 +1,11 @@
+import { BrowserContainer } from "./routes";
+
 function App() {
-  return <div>Task Manager</div>;
+  return (
+    <>
+      <BrowserContainer />
+    </>
+  );
 }
 
 export default App;
