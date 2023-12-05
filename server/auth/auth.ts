@@ -1,5 +1,4 @@
-import jwt, { Secret, JwtPayload } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { IUser } from "../models/user.model";
 
 const JWT_SECRET: Secret = process.env.JWT_SECRET || "mylocalsecret";
@@ -12,4 +11,8 @@ type JWTPayload = {
 
 export const signToken = (payload: JWTPayload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: EXP_TIME });
+};
+
+export const verifyToken = (token: string) => {
+  return jwt.verify(token, JWT_SECRET, { maxAge: EXP_TIME });
 };

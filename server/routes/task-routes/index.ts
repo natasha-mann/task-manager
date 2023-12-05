@@ -7,12 +7,13 @@ import {
   getTaskById,
   updateTask,
 } from "../../controllers";
+import { auth } from "../../middleware/auth";
 
 export const tasksRouter = Router();
 
-tasksRouter.post("/create", createTask);
-tasksRouter.get("/tasks:userId", getAllTasksForUser);
-tasksRouter.get("/task:id", getTaskById);
-tasksRouter.put("/update", updateTask);
-tasksRouter.delete("/delete:id", deleteTask);
-tasksRouter.delete("/delete:userId", deleteAllTasksForUser);
+tasksRouter.post("/create", auth, createTask);
+tasksRouter.get("/tasks:userId", auth, getAllTasksForUser);
+tasksRouter.get("/task:id", auth, getTaskById);
+tasksRouter.put("/update", auth, updateTask);
+tasksRouter.delete("/delete:id", auth, deleteTask);
+tasksRouter.delete("/delete:userId", auth, deleteAllTasksForUser);
