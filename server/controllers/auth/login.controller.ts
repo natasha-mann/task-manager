@@ -22,7 +22,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(403).send({ message: "Incorrect email or password" });
     }
 
-    return res.status(200).send(existingUser);
+    return res.status(200).send();
   } catch (error) {
     return res
       .status(500)
