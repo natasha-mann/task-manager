@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User, { IUser } from "../../models/user.model";
-import { signToken } from "../../auth/auth";
+import { signToken } from "../../auth/jwt";
 
 type LoginPayload = {
   email: IUser["email"];
@@ -29,12 +29,10 @@ export const login = async (req: Request, res: Response) => {
       email: existingUser.email,
     });
 
-    return res
-      .status(200)
-      .send({
-        user: { _id: existingUser._id, email: existingUser.email },
-        token,
-      });
+    return res.status(200).send({
+      user: { _id: existingUser._id, email: existingUser.email },
+      token,
+    });
   } catch (error) {
     return res
       .status(500)
