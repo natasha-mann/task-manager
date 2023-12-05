@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import User, { IUser } from "../../models/user.model";
+import { signToken } from "../../auth/auth";
 
 type LoginPayload = {
   email: IUser["email"];
@@ -22,7 +24,17 @@ export const login = async (req: Request, res: Response) => {
       return res.status(403).send({ message: "Incorrect email or password" });
     }
 
-    return res.status(200).send();
+    const token = signToken({
+      _id: existingUser._id?.toString(),
+      email: existingUser.email,
+    });
+
+    return res
+      .status(200)
+      .send({
+        user: { _id: existingUser._id, email: existingUser.email },
+        token,
+      });
   } catch (error) {
     return res
       .status(500)
