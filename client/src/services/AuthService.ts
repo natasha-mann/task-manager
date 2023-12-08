@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { LOGIN_URL, REGISTER_URL } from "../constants/api";
-import { LoginData } from "../pages/login";
-import { SignupData } from "../pages/signup";
+import { LoginData } from "../pages/Login";
+import { SignupData } from "../pages/Signup";
 import { setTokenCookie } from "../utils/cookies";
 import { fetchWrapper } from "../utils/fetch";
 
 type AuthResponse = {
   token: string;
-  email: string;
-  _id: string;
+  user: { email: string; _id: string };
 };
 
 export const useRegisterMutation = () => {
@@ -42,9 +41,5 @@ export const useLoginMutation = () => {
 };
 
 export const storeSessionData = (data: AuthResponse) => {
-  localStorage.setItem(
-    "user",
-    JSON.stringify({ email: data.email, id: data._id })
-  );
   setTokenCookie(data.token);
 };

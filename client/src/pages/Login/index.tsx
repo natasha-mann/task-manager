@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { Input } from "../components/Input";
-import { Page } from "../components/Page";
+import { Input } from "../../components/Input";
+import { Page } from "../../components/Page";
 import { useForm } from "react-hook-form";
-import { storeSessionData, useLoginMutation } from "../services/AuthService";
-import { Form } from "../components/Form";
+import { storeSessionData, useLoginMutation } from "../../services/AuthService";
+import { Form } from "../../components/Form";
 import { useState } from "react";
 
 export type LoginData = {
@@ -11,7 +11,7 @@ export type LoginData = {
   password: string;
 };
 
-const Login = () => {
+export const Login = () => {
   const [loginError, setLoginError] = useState<string>("");
 
   const {
@@ -27,18 +27,16 @@ const Login = () => {
   const onSubmit = async (data: LoginData) => {
     try {
       const authResponse = await loginMutation.mutateAsync(data);
-
       storeSessionData(authResponse);
       navigate("/dashboard");
     } catch (error) {
-      if ("message" in error.data) {
-        setLoginError(error.data.message);
-      }
+      const errorMessage = error?.data?.message ?? error;
+      setLoginError(errorMessage);
     }
   };
 
   return (
-    <Page isCentered={true}>
+    <Page isCentered={true} hasBackgroundImage={true}>
       <Form
         heading="Login to Taskify"
         register={register}
@@ -64,5 +62,3 @@ const Login = () => {
     </Page>
   );
 };
-
-export default Login;

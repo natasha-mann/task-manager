@@ -1,4 +1,4 @@
-import { FontStyles } from "./resources/fonts/fontStyles";
+import { GlobalStyles } from "./globalStyles";
 import { BrowserContainer } from "./routes/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -7,7 +7,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <FontStyles />
+      <GlobalStyles />
       <BrowserContainer />
     </QueryClientProvider>
   );

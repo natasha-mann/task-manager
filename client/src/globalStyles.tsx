@@ -1,8 +1,8 @@
 import { createGlobalStyle, css } from "styled-components";
-import UbuntuMonoBold from "./UbuntuMonoBold.ttf";
-import UbuntuMonoRegular from "./UbuntuMonoRegular.ttf";
+import UbuntuMonoBold from "./resources/fonts/UbuntuMonoBold.ttf";
+import UbuntuMonoRegular from "./resources/fonts/UbuntuMonoRegular.ttf";
 
-export const FontStyles = createGlobalStyle(
+export const GlobalStyles = createGlobalStyle(
   () => css`
     * {
       font-family: "Ubuntu Mono", monospace;
@@ -18,6 +18,15 @@ export const FontStyles = createGlobalStyle(
       font-weight: 700;
       font-style: normal;
       font-display: swap;
+    }
+
+   * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body, #root, #root>div {
+      height: 100%
     }
   `
 );

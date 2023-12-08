@@ -1,25 +1,18 @@
 import { PropsWithChildren } from "react";
-import {
-  CenteredContentContainer,
-  Container,
-  ContentContainer,
-  PageBody,
-} from "./Page.styled";
+import { Container, ContentContainer } from "./Page.styled";
+import { Layout } from "../Layout";
 
 type PageProps = PropsWithChildren<{
-  isCentered: boolean;
+  isCentered?: boolean;
+  hasBackgroundImage?: boolean;
 }>;
 
-export const Page = ({ children, isCentered }: PageProps) => {
+export const Page = ({ children, hasBackgroundImage = false }: PageProps) => {
   return (
-    <PageBody>
+    <Layout hasBackgroundImage={hasBackgroundImage}>
       <Container>
-        {isCentered ? (
-          <CenteredContentContainer>{children}</CenteredContentContainer>
-        ) : (
-          <ContentContainer>{children}</ContentContainer>
-        )}
+        <ContentContainer>{children}</ContentContainer>
       </Container>
-    </PageBody>
+    </Layout>
   );
 };

@@ -1,8 +1,11 @@
-import { Form } from "../components/Form";
-import { Page } from "../components/Page";
+import { Form } from "../../components/Form";
+import { Page } from "../../components/Page";
 import { useForm } from "react-hook-form";
-import { Input } from "../components/Input";
-import { storeSessionData, useRegisterMutation } from "../services/AuthService";
+import { Input } from "../../components/Input";
+import {
+  storeSessionData,
+  useRegisterMutation,
+} from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 
@@ -13,7 +16,7 @@ export type SignupData = {
   password: string;
 };
 
-const Signup = () => {
+export const Signup = () => {
   const [signupError, setSignupError] = useState<string>("");
 
   const {
@@ -30,20 +33,18 @@ const Signup = () => {
     async (data: SignupData) => {
       try {
         const authResponse = await signupMutation.mutateAsync(data);
-
         storeSessionData(authResponse);
         navigate("/dashboard");
       } catch (error) {
-        if ("message" in error.data) {
-          setSignupError(error.data.message);
-        }
+        const errorMessage = error?.data?.message ?? error;
+        setSignupError(errorMessage);
       }
     },
     [signupMutation, navigate]
   );
 
   return (
-    <Page isCentered={true}>
+    <Page isCentered={true} hasBackgroundImage={true}>
       <Form
         heading="Welcome to Taskify"
         register={register}
@@ -81,5 +82,3 @@ const Signup = () => {
     </Page>
   );
 };
-
-export default Signup;
