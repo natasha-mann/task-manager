@@ -1,21 +1,25 @@
 import styled, { css } from "styled-components";
 import { StyledForm } from "../components/Form";
 import { Page } from "../components/Page";
-import {
-  Register,
-  useMutation,
-  UseMutationOptions,
-} from "@tanstack/react-query";
-import { REGISTER_URL } from "../constants/api";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Input } from "../components/Input";
+import { setTokenCookie } from "../utils/cookies";
+import { registerUser } from "../services/AuthService";
 import { fetchWrapper } from "../utils/fetch";
+import { REGISTER_URL } from "../constants/api";
+import { useNavigate } from "react-router-dom";
 
-type SignupData = {
+export type SignupData = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+};
+
+export type SignupResponse = {
+  token: string;
+  email: string;
 };
 
 const FormContainer = styled.div(
@@ -34,26 +38,17 @@ const Signup = () => {
   } = useForm<SignupData>();
 
   const { mutateAsync: signupMutation } = useMutation({
-    mutationFn: async (data: SignupData) => {
-      const response = await fetchWrapper(REGISTER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      return Promise.resolve(response);
-    },
+    mutationFn: registerUser,
   });
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data: SignupData) => {
     try {
-      const response = await signupMutation(data);
-      // const signupData = await response.json();
-      console.log({ response });
+      await signupMutation(data);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Signup error:", error);
-      // Handle error or display error message to the user
     }
   };
 

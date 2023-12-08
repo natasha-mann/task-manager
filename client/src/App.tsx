@@ -1,5 +1,5 @@
 import { FontStyles } from "./resources/fonts/fontStyles";
-import { BrowserContainer } from "./routes";
+import { BrowserContainer } from "./routes/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
