@@ -1,9 +1,11 @@
 import React, { createElement } from "react";
 import {
-  StyledFormContainer,
+  StyledForm,
   StyledButton,
   StyledInputsContainer,
   StyledHeading,
+  FormContainer,
+  FormError,
 } from "./Form.styled";
 import { ReactNode } from "react";
 
@@ -16,32 +18,41 @@ type StyledFormProps = {
   handleSubmit?: any;
   register?: any;
   className?: string;
+  error?: string;
 };
 
-export const StyledForm = ({
+export const Form = ({
   heading,
   buttonLabel = "Submit",
   children,
   onSubmit,
   handleSubmit,
   register,
+  error,
   ...rest
 }: StyledFormProps) => {
   return (
-    <StyledFormContainer onSubmit={handleSubmit(onSubmit)} {...rest}>
-      {heading && <StyledHeading>{heading}</StyledHeading>}
-      <StyledInputsContainer>
-        {Array.isArray(children)
-          ? children.map((child) => {
-              return child.props.name
-                ? createElement(child.type, {
-                    ...{ ...child.props, register, key: child.props.name },
-                  })
-                : child;
-            })
-          : children}
-        <StyledButton type="submit">{buttonLabel}</StyledButton>
-      </StyledInputsContainer>
-    </StyledFormContainer>
+    <FormContainer>
+      <StyledForm onSubmit={handleSubmit(onSubmit)} {...rest}>
+        {heading && <StyledHeading>{heading}</StyledHeading>}
+        <StyledInputsContainer>
+          {Array.isArray(children)
+            ? children.map((child) => {
+                return child.props.name
+                  ? createElement(child.type, {
+                      ...{
+                        ...child.props,
+                        register,
+                        key: child.props.name,
+                      },
+                    })
+                  : child;
+              })
+            : children}
+          <StyledButton type="submit">{buttonLabel}</StyledButton>
+          {error && <FormError>{error}</FormError>}
+        </StyledInputsContainer>
+      </StyledForm>
+    </FormContainer>
   );
 };

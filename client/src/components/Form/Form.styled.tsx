@@ -1,8 +1,15 @@
 import styled, { css } from "styled-components";
 
-export const StyledFormContainer = styled.form(
+export const FormContainer = styled.div(
   () => css`
-    height: 85vh;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+  `
+);
+
+export const StyledForm = styled.form(
+  () => css`
     width: 40vw;
     background-color: black;
     border-radius: 10%;
@@ -36,5 +43,11 @@ export const StyledHeading = styled.h1(
   () => css`
     color: white;
     text-align: center;
+  `
+);
+
+export const FormError = styled.p(
+  () => css`
+    color: red;
   `
 );

@@ -28,6 +28,7 @@ export const Input = ({
       <StyledInputField
         placeholder={placeholder}
         {...register(name, { required: required })}
+        {...rest}
       />
       {error && <p>{error}</p>}
     </>
