@@ -8,11 +8,7 @@ export const getAllTasksForUser = async (req: Request, res: Response) => {
 
   const user = customReq.token;
 
-  console.log({ user });
-
   const tasks = await Task.find({ user: user.id });
-
-  console.log({ tasks });
 
   return res.status(200).send(tasks);
 };

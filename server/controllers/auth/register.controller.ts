@@ -12,11 +12,9 @@ type CreateUserPayload = {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    console.log("HERE");
     const data: CreateUserPayload = req.body;
 
     const newUser = await User.create(data);
-    console.log({ newUser });
 
     const token = signToken({
       id: newUser.id?.toString(),

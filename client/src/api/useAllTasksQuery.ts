@@ -32,10 +32,10 @@ export const useAllTasksQuery = () => {
     });
   };
 
-  const { data: tasks } = useQuery({
+  const { data: tasks, refetch } = useQuery({
     queryFn: fetchAllTasks,
     queryKey: ["allTasks"],
   });
 
-  return tasks;
+  return { tasks, refetch };
 };

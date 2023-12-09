@@ -18,12 +18,12 @@ export const createTask = async (req: Request, res: Response) => {
     const customReq = req as CustomRequest;
 
     const token = customReq.token;
-    console.log({ token });
+
     const newTaskData = {
       ...data,
       user: token.id,
     };
-    console.log({ newTaskData });
+
     const newTask = await Task.create(newTaskData);
     return res
       .status(201)

@@ -35,7 +35,6 @@ type SortedTasks = {
 };
 
 const sortTasks = (tasks: TaskData[] | undefined): SortedTasks => {
-  console.log({ tasks });
   const toDo = tasks?.filter((task) => task.status === "toDo") ?? [];
   const inProgress =
     tasks?.filter((task) => task.status === "inProgress") ?? [];
@@ -46,7 +45,7 @@ const sortTasks = (tasks: TaskData[] | undefined): SortedTasks => {
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const tasks = useAllTasksQuery();
+  const { tasks, refetch } = useAllTasksQuery();
 
   const [sortedTasks, setSortedTasks] = useState<SortedTasks>(sortTasks(tasks));
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -78,7 +77,10 @@ export const Dashboard = () => {
     async (data: TaskData) => {
       try {
         const apiResponse = await createTaskMutation.mutateAsync(data);
-        console.log({ apiResponse });
+
+        setShowModal((prev) => !prev);
+
+        refetch();
       } catch (error) {
         const errorMessage = error?.data?.message ?? error;
         setCreateTaskError(errorMessage);
@@ -135,11 +137,13 @@ export const Dashboard = () => {
               sortedTasks.inProgress.map((task) => (
                 <Task key={task._id} {...task} />
               ))}
+            <CTAButton label="Add new task" onClick={handleShowModel} />
           </TaskColumn>
           <TaskColumn>
             <TaskColumnHeader>DONE</TaskColumnHeader>
             {sortedTasks &&
               sortedTasks.done.map((task) => <Task key={task._id} {...task} />)}
+            <CTAButton label="Add new task" onClick={handleShowModel} />
           </TaskColumn>
         </TaskBoard>
       </Page>
