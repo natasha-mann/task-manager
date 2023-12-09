@@ -24,13 +24,12 @@ export const useCreateTaskMutation = () => {
 
 export const useDeleteTaskMutation = () => {
   const deleteTaskMutation = useMutation({
-    mutationFn: (requestBody: TaskData) => {
-      return fetchWrapper<TaskResponse>(DELETE_TASK, {
-        method: "POST",
+    mutationFn: (requestBody: TaskData["_id"]) => {
+      return fetchWrapper<TaskResponse>(`${DELETE_TASK}/${requestBody}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestBody),
       });
     },
   });

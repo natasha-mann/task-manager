@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 type ModalProps = PropsWithChildren<{
   show: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
 }>;
 
 type ModelBackdropProps = {
@@ -20,7 +20,7 @@ const StyledModal = styled.div(
     margin: 0 auto;
     border-radius: 1rem;
     padding: 1rem;
-    z-index: 10;
+    z-index: 100;
   `
 );
 
@@ -47,7 +47,7 @@ export const Modal = ({ onClose, show, title, children }: ModalProps) => {
       <StyledModal>
         <ModalHeader>
           <button onClick={onClose}>Close</button>
-          <h2>{title}</h2>
+          {title && <h2>{title}</h2>}
         </ModalHeader>
         <ModalBody>{children}</ModalBody>
       </StyledModal>

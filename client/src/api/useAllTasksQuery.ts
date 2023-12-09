@@ -15,7 +15,7 @@ export enum PriorityLevel {
 }
 
 export type TaskData = {
-  id: string;
+  _id: string;
   title: string;
   details?: string;
   priorityLevel: PriorityLevel;
@@ -32,10 +32,14 @@ export const useAllTasksQuery = () => {
     });
   };
 
-  const { data: tasks, refetch } = useQuery({
+  const {
+    data: tasks,
+    refetch,
+    status,
+  } = useQuery({
     queryFn: fetchAllTasks,
     queryKey: ["allTasks"],
   });
 
-  return { tasks, refetch };
+  return { tasks, refetch, status };
 };

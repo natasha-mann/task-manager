@@ -9,11 +9,16 @@ export const TaskCard = styled.div<TaskCardProps>`
     priority === "1" ? "#e23536" : "black"};
   color: white;
   border-radius: 1rem;
-  height: 5rem;
+  height: 8rem;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   margin: 0.5rem 0;
+  box-sizing: border-box;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const CardHeader = styled.div(
@@ -28,7 +33,7 @@ export const ButtonsContainer = styled.div(
   () => css`
     display: flex;
     justify-content: space-between;
-    width: 35%;
+    width: 25%;
   `
 );
 
