@@ -10,6 +10,6 @@ export const deleteTask = async (req: Request, res: Response) => {
 
     return res.status(200).send();
   } catch (error) {
-    return res.status(500).send("Unexpected server error");
+    return res.status(500).send({ message: "Unexpected server error", error });
   }
 };
