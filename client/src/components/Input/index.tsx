@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, PropsWithChildren } from "react";
 import { StyledInputField } from "./Input.styled";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -9,8 +9,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   wrapperClass?: string;
   className?: string;
   placeholder?: string;
-  required: boolean;
+  required?: boolean;
 }
+
+interface DropDownProps extends InputProps, PropsWithChildren<{}> {}
+interface TextAreaProps extends InputProps {}
 
 export const Input = ({
   register,
@@ -19,7 +22,7 @@ export const Input = ({
   label,
   wrapperClass,
   placeholder,
-  required,
+  required = true,
   ...rest
 }: InputProps) => {
   return (
@@ -33,4 +36,27 @@ export const Input = ({
       {error && <p>{error}</p>}
     </>
   );
+};
+
+export const DropDown = ({
+  children,
+  register,
+  name,
+  required,
+  ...rest
+}: DropDownProps) => {
+  return (
+    <select {...register(name, { required: required })} {...rest}>
+      {children}
+    </select>
+  );
+};
+
+export const TextArea = ({
+  register,
+  name,
+  required,
+  ...rest
+}: TextAreaProps) => {
+  return <textarea {...register(name, { required: required })} {...rest} />;
 };

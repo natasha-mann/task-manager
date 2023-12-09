@@ -14,6 +14,7 @@ export const StyledForm = styled.form(
     width: 40vw;
     background-color: black;
     border-radius: 10%;
+    padding: 1.5rem;
   `
 );
 
@@ -28,6 +29,11 @@ export const StyledButton = styled.button(
     font-weight: bold;
     font-size: 1.2rem;
     margin: 1rem 0;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 80%;
+    }
   `
 );
 
@@ -44,6 +50,7 @@ export const StyledHeading = styled.h1(
   () => css`
     color: white;
     text-align: center;
+    margin-bottom: 1rem;
   `
 );
 

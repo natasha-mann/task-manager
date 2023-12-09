@@ -5,3 +5,4 @@ export const REGISTER_URL = `${AUTH_URL}/register`;
 export const LOGIN_URL = `${AUTH_URL}/login`;
 
 export const GET_TASKS = `${TASKS_URL}/tasks`;
+export const CREATE_TASK = `${TASKS_URL}/create`;

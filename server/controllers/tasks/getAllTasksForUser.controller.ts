@@ -10,7 +10,7 @@ export const getAllTasksForUser = async (req: Request, res: Response) => {
 
   console.log({ user });
 
-  const tasks = await Task.find({ user: user._id });
+  const tasks = await Task.find({ user: user.id });
 
   console.log({ tasks });
 

@@ -19,12 +19,12 @@ export const register = async (req: Request, res: Response) => {
     console.log({ newUser });
 
     const token = signToken({
-      _id: newUser._id?.toString(),
+      id: newUser.id?.toString(),
       email: newUser.email,
     });
 
     return res.status(200).send({
-      user: { _id: newUser._id, email: newUser.email },
+      user: { id: newUser.id, email: newUser.email },
       token,
     });
   } catch (error) {

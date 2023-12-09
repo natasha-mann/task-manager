@@ -10,7 +10,7 @@ import {
 import { ReactNode } from "react";
 
 type StyledFormProps = {
-  heading: string;
+  heading?: string;
   defaultValues?: any;
   children?: ReactNode;
   buttonLabel?: string;
