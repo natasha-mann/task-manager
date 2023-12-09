@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { CREATE_TASK } from "../constants/api";
+import { CREATE_TASK, DELETE_TASK } from "../constants/api";
 import { fetchWrapper } from "../utils/fetch";
 import { TaskData } from "../api/useAllTasksQuery";
 
 type TaskResponse = {
-  _id: string;
+  id: string;
 };
 
 export const useCreateTaskMutation = () => {
@@ -20,4 +20,19 @@ export const useCreateTaskMutation = () => {
     },
   });
   return createTaskMutation;
+};
+
+export const useDeleteTaskMutation = () => {
+  const deleteTaskMutation = useMutation({
+    mutationFn: (requestBody: TaskData) => {
+      return fetchWrapper<TaskResponse>(DELETE_TASK, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+    },
+  });
+  return deleteTaskMutation;
 };

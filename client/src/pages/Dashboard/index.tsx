@@ -57,7 +57,7 @@ export const Dashboard = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Omit<TaskData, "_id">>();
+  } = useForm<Omit<TaskData, "id">>();
 
   useEffect(() => {
     const token = getTokenFromCookie();
@@ -76,7 +76,7 @@ export const Dashboard = () => {
   const handleCreateTask = useCallback(
     async (data: TaskData) => {
       try {
-        const apiResponse = await createTaskMutation.mutateAsync(data);
+        await createTaskMutation.mutateAsync(data);
 
         setShowModal((prev) => !prev);
 
@@ -86,7 +86,7 @@ export const Dashboard = () => {
         setCreateTaskError(errorMessage);
       }
     },
-    [createTaskMutation]
+    [createTaskMutation, refetch]
   );
 
   return (
@@ -128,21 +128,21 @@ export const Dashboard = () => {
           <TaskColumn>
             <TaskColumnHeader>TO DO</TaskColumnHeader>
             {sortedTasks &&
-              sortedTasks.toDo.map((task) => <Task key={task._id} {...task} />)}
+              sortedTasks.toDo.map((task) => <Task key={task.id} {...task} />)}
             <CTAButton label="Add new task" onClick={handleShowModel} />
           </TaskColumn>
           <TaskColumn>
             <TaskColumnHeader>IN PROGRESS</TaskColumnHeader>
             {sortedTasks &&
               sortedTasks.inProgress.map((task) => (
-                <Task key={task._id} {...task} />
+                <Task key={task.id} {...task} />
               ))}
             <CTAButton label="Add new task" onClick={handleShowModel} />
           </TaskColumn>
           <TaskColumn>
             <TaskColumnHeader>DONE</TaskColumnHeader>
             {sortedTasks &&
-              sortedTasks.done.map((task) => <Task key={task._id} {...task} />)}
+              sortedTasks.done.map((task) => <Task key={task.id} {...task} />)}
             <CTAButton label="Add new task" onClick={handleShowModel} />
           </TaskColumn>
         </TaskBoard>

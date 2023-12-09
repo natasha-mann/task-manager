@@ -15,7 +15,7 @@ export enum PriorityLevel {
 }
 
 export type TaskData = {
-  _id: string;
+  id: string;
   title: string;
   details?: string;
   priorityLevel: PriorityLevel;

@@ -9,12 +9,14 @@ export const TaskBoard = styled.div(
     display: flex;
     justify-content: space-evenly;
     margin: 0 auto;
+    padding: 1.5rem 0;
   `
 );
 
 export const DashboardHeader = styled.h1(
   () => css`
     color: white;
+    margin-bottom: 1.5rem;
   `
 );
 
