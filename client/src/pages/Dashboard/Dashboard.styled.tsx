@@ -49,3 +49,11 @@ export const TaskColumnHeader = styled.h2(
     font-weight: 500;
   `
 );
+
+export const ManageBoardControls = styled.div(
+  () => css`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  `
+);

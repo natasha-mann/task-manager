@@ -11,7 +11,8 @@ import {
   TaskCard,
 } from "./Task.styled";
 
-type TaskProps = {
+export type TaskProps = {
+  size: "large" | "small";
   _id: string;
   title: string;
   priorityLevel: PriorityLevel;
@@ -36,6 +37,7 @@ const mapPriorityLevel = (level: string) => {
 };
 
 export const Task = ({
+  size,
   title,
   priorityLevel,
   status,
@@ -49,7 +51,12 @@ export const Task = ({
 
   return (
     <>
-      <TaskCard id={_id} priority={priorityLevel} onClick={onClick}>
+      <TaskCard
+        id={_id}
+        priorityLevel={priorityLevel}
+        size={size}
+        onClick={onClick}
+      >
         <CardHeader>
           <h3>{title}</h3>
           <ButtonsContainer>

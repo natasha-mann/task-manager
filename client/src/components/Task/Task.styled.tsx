@@ -1,12 +1,9 @@
 import styled, { css } from "styled-components";
+import { TaskProps } from ".";
 
-type TaskCardProps = {
-  priority: string;
-};
-
-export const TaskCard = styled.div<TaskCardProps>`
-  background-color: ${({ priority }) =>
-    priority === "1" ? "#e23536" : "black"};
+export const TaskCard = styled.div<Pick<TaskProps, "size" | "priorityLevel">>`
+  background-color: ${({ priorityLevel }) =>
+    priorityLevel === "1" ? "#e23536" : "black"};
   color: white;
   border-radius: 1rem;
   height: 8rem;
@@ -15,7 +12,7 @@ export const TaskCard = styled.div<TaskCardProps>`
   padding: 1rem;
   margin: 0.5rem 0;
   box-sizing: border-box;
-
+  width: ${({ size }) => (size === "large" ? "30%" : null)};
   &:hover {
     cursor: pointer;
   }

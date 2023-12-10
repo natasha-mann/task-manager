@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { Page } from "../../components/Page";
 import {
   DashboardHeader,
+  ManageBoardControls,
   TaskBoard,
   TaskColumn,
   TaskColumnHeader,
@@ -20,6 +21,8 @@ import {
   useCreateTaskMutation,
   useDeleteTaskMutation,
 } from "../../services/TaskService";
+import { Filter } from "../../components/Filter";
+import { Column } from "../../components/Column";
 
 type SortedTasks = {
   toDo: TaskData[] | [];
@@ -39,8 +42,14 @@ const sortTasks = (tasks: TaskData[] | undefined): SortedTasks => {
 export const Dashboard = () => {
   const navigate = useNavigate();
   const { tasks, refetch } = useAllTasksQuery();
+  const [filterValue, setFilterValue] = useState<string>("");
+  const [filteredTasks, setFilteredTasks] = useState<TaskData[]>(tasks ?? []);
 
-  const [sortedTasks, setSortedTasks] = useState<SortedTasks>(sortTasks(tasks));
+  const [boardView, setBoardView] = useState<boolean>(false);
+
+  // const [sortedTasks, setSortedTasks] = useState<SortedTasks>(
+  //   sortTasks(filteredTasks)
+  // );
   const [selectedTask, setSelectedTask] = useState<TaskData | undefined>();
   const [showCreateTaskModal, setShowCreateTaskModal] =
     useState<boolean>(false);
@@ -62,9 +71,6 @@ export const Dashboard = () => {
     const token = getTokenFromCookie();
     if (!token) {
       navigate("/login");
-    } else {
-      const sorted = sortTasks(tasks);
-      setSortedTasks(sorted);
     }
   }, [navigate, tasks]);
 
@@ -97,14 +103,7 @@ export const Dashboard = () => {
       try {
         if (taskId) {
           deleteTaskMutation.mutateAsync(taskId);
-
-          setSortedTasks((prev) => {
-            return {
-              done: prev.done.filter((e) => e._id !== taskId),
-              toDo: prev.toDo.filter((e) => e._id !== taskId),
-              inProgress: prev.inProgress.filter((e) => e._id !== taskId),
-            };
-          });
+          setFilteredTasks((prev) => prev.filter((e) => e._id !== taskId));
         }
       } catch (error) {
         console.log({ error });
@@ -131,6 +130,16 @@ export const Dashboard = () => {
     setShowViewTaskModal((prev) => !prev);
     reset();
   };
+
+  useEffect(() => {
+    if (filterValue) {
+      const filteredTasks =
+        tasks?.filter((task) => task.priorityLevel === filterValue) ?? [];
+      setFilteredTasks(filteredTasks);
+    } else {
+      setFilteredTasks(tasks ?? []);
+    }
+  }, [filterValue, tasks]);
 
   return (
     <>
@@ -201,50 +210,70 @@ export const Dashboard = () => {
       )}
       <Page isCentered={true}>
         <DashboardHeader>Task Overview</DashboardHeader>
-
+        <ManageBoardControls>
+          <div>
+            <Filter onClick={setFilterValue} />
+          </div>
+          <div>
+            <CTAButton label="Add new task" onClick={handleShowModel} />
+            <CTAButton
+              label={boardView ? "All Tasks" : "Task Board View"}
+              onClick={() => setBoardView((prev) => !prev)}
+            />
+          </div>
+        </ManageBoardControls>
         <TaskBoard>
-          <TaskColumn>
-            <TaskColumnHeader>TO DO</TaskColumnHeader>
-            {sortedTasks &&
-              sortedTasks.toDo.map((task) => (
+          {!boardView && !filteredTasks.length && (
+            <>
+              <h1>No tasks!</h1>
+              <CTAButton label="Add new task" onClick={handleShowModel} />
+            </>
+          )}
+          {tasks &&
+            !boardView &&
+            filteredTasks.map((task) => {
+              return (
                 <Task
+                  size="large"
                   key={task._id}
                   {...task}
+                  onClick={handleOpenTask}
                   deleteFn={handleDeleteTask}
                   editFn={handleEditTask}
-                  onClick={handleOpenTask}
                 />
-              ))}
-            <CTAButton label="Add new task" onClick={handleShowModel} />
-          </TaskColumn>
-          <TaskColumn>
-            <TaskColumnHeader>IN PROGRESS</TaskColumnHeader>
-            {sortedTasks &&
-              sortedTasks.inProgress.map((task) => (
-                <Task
-                  key={task._id}
-                  {...task}
-                  deleteFn={handleDeleteTask}
-                  editFn={handleEditTask}
-                  onClick={handleOpenTask}
-                />
-              ))}
-            <CTAButton label="Add new task" onClick={handleShowModel} />
-          </TaskColumn>
-          <TaskColumn>
-            <TaskColumnHeader>DONE</TaskColumnHeader>
-            {sortedTasks &&
-              sortedTasks.done.map((task) => (
-                <Task
-                  key={task._id}
-                  {...task}
-                  deleteFn={handleDeleteTask}
-                  editFn={handleEditTask}
-                  onClick={handleOpenTask}
-                />
-              ))}
-            <CTAButton label="Add new task" onClick={handleShowModel} />
-          </TaskColumn>
+              );
+            })}
+
+          {tasks &&
+            boardView &&
+            Object.entries(sortTasks(filteredTasks)).map(
+              ([priority, tasks]) => {
+                return (
+                  <Column>
+                    <TaskColumnHeader>
+                      {priority === "todo"
+                        ? "TO DO"
+                        : priority === "inProgress"
+                        ? "IN PROGRESS"
+                        : "DONE"}
+                    </TaskColumnHeader>
+                    {tasks.length
+                      ? tasks.map((task) => (
+                          <Task
+                            size="small"
+                            key={task._id}
+                            {...task}
+                            deleteFn={handleDeleteTask}
+                            editFn={handleEditTask}
+                            onClick={handleOpenTask}
+                          />
+                        ))
+                      : null}
+                    <CTAButton label="Add new task" onClick={handleShowModel} />
+                  </Column>
+                );
+              }
+            )}
         </TaskBoard>
       </Page>
     </>
