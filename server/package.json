@@ -5,8 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon",
-    "test": "jest",
-    "seed": "node seed/index.mjs"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
