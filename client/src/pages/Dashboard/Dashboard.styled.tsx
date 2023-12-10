@@ -10,6 +10,11 @@ export const TaskBoard = styled.div(
     justify-content: space-evenly;
     margin: 0 auto;
     padding: 1.5rem 0;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
   `
 );
 
@@ -23,5 +28,24 @@ export const DashboardHeader = styled.h1(
 export const DashboardContainer = styled.div(
   () => css`
     color: white;
+  `
+);
+
+export const TaskColumn = styled.div(
+  () => css`
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    color: white;
+
+    @media (max-width: 768px) {
+      width: 90%;
+    }
+  `
+);
+
+export const TaskColumnHeader = styled.h2(
+  () => css`
+    font-weight: 500;
   `
 );

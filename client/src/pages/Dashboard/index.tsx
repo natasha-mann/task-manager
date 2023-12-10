@@ -1,6 +1,11 @@
 import styled, { css } from "styled-components";
 import { Page } from "../../components/Page";
-import { DashboardHeader, TaskBoard } from "./Dashboard.styled";
+import {
+  DashboardHeader,
+  TaskBoard,
+  TaskColumn,
+  TaskColumnHeader,
+} from "./Dashboard.styled";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTokenFromCookie } from "../../utils/cookies";
@@ -15,21 +20,6 @@ import {
   useCreateTaskMutation,
   useDeleteTaskMutation,
 } from "../../services/TaskService";
-
-export const TaskColumn = styled.div(
-  () => css`
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    color: white;
-  `
-);
-
-const TaskColumnHeader = styled.h2(
-  () => css`
-    font-weight: 500;
-  `
-);
 
 type SortedTasks = {
   toDo: TaskData[] | [];
