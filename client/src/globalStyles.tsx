@@ -1,6 +1,7 @@
-import { createGlobalStyle, css } from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
 import UbuntuMonoBold from "./resources/fonts/UbuntuMonoBold.ttf";
 import UbuntuMonoRegular from "./resources/fonts/UbuntuMonoRegular.ttf";
+import { Link } from "react-router-dom";
 
 export const GlobalStyles = createGlobalStyle(
   () => css`
@@ -34,3 +35,11 @@ export const GlobalStyles = createGlobalStyle(
     }
   `
 );
+
+export const StyledLink = styled(Link)`
+  color: white;
+`;
+
+export const StyledWhiteP = styled.p`
+  color: white;
+`;

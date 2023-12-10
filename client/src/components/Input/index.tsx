@@ -6,6 +6,7 @@ import {
   StyledSelect,
   StyledTextArea,
 } from "./Input.styled";
+import { StyledWhiteP } from "../../globalStyles";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -29,6 +30,7 @@ export const Input = ({
   wrapperClass,
   placeholder,
   required = true,
+
   ...rest
 }: InputProps) => {
   return (
@@ -39,7 +41,7 @@ export const Input = ({
         {...register(name, { required: required })}
         {...rest}
       />
-      {error && <p>{error}</p>}
+      {error && <StyledWhiteP>{error}</StyledWhiteP>}
     </>
   );
 };
@@ -50,6 +52,7 @@ export const DropDown = ({
   name,
   required,
   label,
+  error,
   ...rest
 }: DropDownProps) => {
   return (
@@ -58,6 +61,7 @@ export const DropDown = ({
       <StyledSelect {...register(name, { required: required })} {...rest}>
         {children}
       </StyledSelect>
+      {error && <StyledWhiteP>{error}</StyledWhiteP>}
     </StyledInputContainer>
   );
 };

@@ -7,15 +7,18 @@ import {
   useRegisterMutation,
 } from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { CenteredFlexContainer } from "../../components/Layout.styled";
+import { StyledLink, StyledWhiteP } from "../../globalStyles";
 
-export type SignupData = {
+type FormData = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
+export type SignupData = Omit<FormData, "confirmPassword">;
 
 export const Signup = () => {
   const [signupError, setSignupError] = useState<string>("");
@@ -23,17 +26,27 @@ export const Signup = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm<SignupData>();
+  } = useForm<FormData>();
+
+  const password = useRef({});
+  password.current = watch("password", "");
 
   const signupMutation = useRegisterMutation();
 
   const navigate = useNavigate();
 
   const onSubmit = useCallback(
-    async (data: SignupData) => {
+    async (data: FormData) => {
       try {
-        const authResponse = await signupMutation.mutateAsync(data);
+        const { firstName, lastName, email, password } = data;
+        const authResponse = await signupMutation.mutateAsync({
+          firstName,
+          lastName,
+          email,
+          password,
+        });
         storeSessionData(authResponse);
         navigate("/dashboard");
       } catch (error) {
@@ -74,12 +87,32 @@ export const Signup = () => {
             required
           />
           <Input
-            name="password"
             type="password"
             placeholder="Please choose a password"
             error={errors.password?.message}
             required
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password should have at least 8 characters",
+              },
+            })}
           />
+          <Input
+            type="password"
+            placeholder="Please confirm your password"
+            error={errors.confirmPassword?.message}
+            required
+            {...register("confirmPassword", {
+              validate: (value) =>
+                value === password.current || "The passwords do not match",
+            })}
+          />
+          <StyledWhiteP>
+            Already registered? Click <StyledLink to="/login">here</StyledLink>{" "}
+            to login.
+          </StyledWhiteP>
         </Form>
       </CenteredFlexContainer>
     </Page>

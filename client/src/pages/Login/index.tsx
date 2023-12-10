@@ -7,6 +7,7 @@ import { Form } from "../../components/Form";
 import { useState } from "react";
 import styled from "styled-components";
 import { CenteredFlexContainer } from "../../components/Layout.styled";
+import { StyledLink, StyledWhiteP } from "../../globalStyles";
 
 export type LoginData = {
   email: string;
@@ -61,6 +62,10 @@ export const Login = () => {
             error={errors.password?.message}
             required
           />
+          <StyledWhiteP>
+            Not registered? Click <StyledLink to="/signup">here</StyledLink> to
+            sign up.
+          </StyledWhiteP>
         </Form>
       </CenteredFlexContainer>
     </Page>
