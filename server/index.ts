@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8000;
-const DB_URL = process.env.MONGODB_URI || "";
+const DB_URL = process.env.MONGODB_URI || "mongodb://localhost/task-manager";
 
 const CORS_OPTIONS: CorsOptions = {
   optionsSuccessStatus: 200,
