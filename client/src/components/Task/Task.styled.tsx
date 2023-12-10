@@ -10,11 +10,15 @@ export const TaskCard = styled.div<Pick<TaskProps, "size" | "priorityLevel">>`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  margin: 0.5rem 0;
+  margin: 0.5rem;
   box-sizing: border-box;
   width: ${({ size }) => (size === "large" ? "30%" : null)};
   &:hover {
     cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
   }
 `;
 

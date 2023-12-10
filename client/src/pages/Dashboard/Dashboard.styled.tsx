@@ -3,10 +3,10 @@ import styled, { css } from "styled-components";
 export const TaskBoard = styled.div(
   () => css`
     width: 90vw;
-    height: 80vh;
     background-color: #282828;
     border-radius: 1rem;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     margin: 0 auto;
     padding: 1.5rem 0;
@@ -14,14 +14,22 @@ export const TaskBoard = styled.div(
     @media (max-width: 768px) {
       flex-direction: column;
       align-items: center;
+      height: 100%;
     }
   `
 );
 
-export const DashboardHeader = styled.h1(
+export const DashboardHeader = styled.div(
+  () => css`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  `
+);
+
+export const StyledHeading = styled.h1(
   () => css`
     color: white;
-    margin-bottom: 1.5rem;
   `
 );
 

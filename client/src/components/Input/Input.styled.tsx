@@ -8,5 +8,6 @@ export const StyledInputField = styled.input(
     margin: 0.5rem 0;
     height: 2rem;
     padding-left: 0.8rem;
+    padding-right: 2rem;
   `
 );

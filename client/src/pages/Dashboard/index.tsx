@@ -3,6 +3,7 @@ import { Page } from "../../components/Page";
 import {
   DashboardHeader,
   ManageBoardControls,
+  StyledHeading,
   TaskBoard,
   TaskColumn,
   TaskColumnHeader,
@@ -23,6 +24,7 @@ import {
 } from "../../services/TaskService";
 import { Filter } from "../../components/Filter";
 import { Column } from "../../components/Column";
+import { SearchBar } from "../../components/SearchBar";
 
 type SortedTasks = {
   toDo: TaskData[] | [];
@@ -42,14 +44,12 @@ const sortTasks = (tasks: TaskData[] | undefined): SortedTasks => {
 export const Dashboard = () => {
   const navigate = useNavigate();
   const { tasks, refetch } = useAllTasksQuery();
-  const [filterValue, setFilterValue] = useState<string>("");
+  const [filterValue, setFilterValue] =
+    useState<Partial<Record<keyof TaskData, string>>>();
   const [filteredTasks, setFilteredTasks] = useState<TaskData[]>(tasks ?? []);
 
   const [boardView, setBoardView] = useState<boolean>(false);
 
-  // const [sortedTasks, setSortedTasks] = useState<SortedTasks>(
-  //   sortTasks(filteredTasks)
-  // );
   const [selectedTask, setSelectedTask] = useState<TaskData | undefined>();
   const [showCreateTaskModal, setShowCreateTaskModal] =
     useState<boolean>(false);
@@ -133,13 +133,19 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (filterValue) {
+      const [[key, value]] = Object.entries(filterValue);
+      const taskProperty = key as keyof TaskData;
       const filteredTasks =
-        tasks?.filter((task) => task.priorityLevel === filterValue) ?? [];
+        tasks?.filter((task) => task[taskProperty]?.includes(value)) ?? [];
       setFilteredTasks(filteredTasks);
     } else {
       setFilteredTasks(tasks ?? []);
     }
   }, [filterValue, tasks]);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValue({ title: e.currentTarget.value });
+  };
 
   return (
     <>
@@ -209,7 +215,10 @@ export const Dashboard = () => {
         </Modal>
       )}
       <Page isCentered={true}>
-        <DashboardHeader>Task Overview</DashboardHeader>
+        <DashboardHeader>
+          <StyledHeading>Task Overview</StyledHeading>
+          <SearchBar onChange={handleOnChange} />
+        </DashboardHeader>
         <ManageBoardControls>
           <div>
             <Filter onClick={setFilterValue} />

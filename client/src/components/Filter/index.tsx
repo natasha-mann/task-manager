@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import styled from "styled-components";
 import { CTAButton } from "../CTAButton";
+import { TaskData } from "../../api/useAllTasksQuery";
 
 const StyledUl = styled.ul`
   list-style-type: none;
@@ -53,7 +54,7 @@ const SubA = styled.a`
 `;
 
 type FilterProps = {
-  onClick: React.Dispatch<React.SetStateAction<string>>;
+  onClick: React.Dispatch<Partial<Record<keyof TaskData, string>>>;
 };
 
 export const Filter = ({ onClick }: FilterProps) => {
@@ -69,7 +70,7 @@ export const Filter = ({ onClick }: FilterProps) => {
             <SubA
               onClick={() => {
                 setShow((prev) => !prev);
-                onClick("");
+                onClick({ priorityLevel: "" });
               }}
             >
               All Tasks
@@ -77,7 +78,7 @@ export const Filter = ({ onClick }: FilterProps) => {
             <SubA
               onClick={() => {
                 setShow((prev) => !prev);
-                onClick("1");
+                onClick({ priorityLevel: "1" });
               }}
             >
               High Priority
@@ -85,7 +86,7 @@ export const Filter = ({ onClick }: FilterProps) => {
             <SubA
               onClick={() => {
                 setShow((prev) => !prev);
-                onClick("2");
+                onClick({ priorityLevel: "2" });
               }}
             >
               Medium Priority
@@ -93,7 +94,7 @@ export const Filter = ({ onClick }: FilterProps) => {
             <SubA
               onClick={() => {
                 setShow((prev) => !prev);
-                onClick("3");
+                onClick({ priorityLevel: "3" });
               }}
             >
               Low Priority
