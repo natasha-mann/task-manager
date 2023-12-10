@@ -25,6 +25,7 @@ import {
 import { Filter } from "../../components/Filter";
 import { Column } from "../../components/Column";
 import { SearchBar } from "../../components/SearchBar";
+import { CreateTaskModal } from "../../components/CreateTask";
 
 type SortedTasks = {
   toDo: TaskData[] | [];
@@ -54,10 +55,8 @@ export const Dashboard = () => {
   const [showCreateTaskModal, setShowCreateTaskModal] =
     useState<boolean>(false);
   const [showViewTaskModal, setShowViewTaskModal] = useState<boolean>(false);
-  const [createTaskError, setCreateTaskError] = useState<string>("");
   const [editTaskError, setEditTaskError] = useState<string>("");
 
-  const createTaskMutation = useCreateTaskMutation();
   const deleteTaskMutation = useDeleteTaskMutation();
 
   const {
@@ -77,22 +76,6 @@ export const Dashboard = () => {
   const handleShowModel = () => {
     setShowCreateTaskModal((prev) => !prev);
   };
-
-  const handleCreateTask = useCallback(
-    async (data: TaskData) => {
-      try {
-        await createTaskMutation.mutateAsync(data);
-
-        setShowCreateTaskModal((prev) => !prev);
-        reset();
-        refetch();
-      } catch (error) {
-        const errorMessage = error?.data?.message ?? error;
-        setCreateTaskError(errorMessage);
-      }
-    },
-    [createTaskMutation, refetch, reset]
-  );
 
   const handleDeleteTask = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -114,7 +97,7 @@ export const Dashboard = () => {
 
   const handleEditTask = useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
-    // setShowModal((prev) => !prev);
+    setShowViewTaskModal((prev) => !prev);
   }, []);
 
   const handleOpenTask = (event: React.MouseEvent) => {
@@ -150,38 +133,11 @@ export const Dashboard = () => {
   return (
     <>
       {showCreateTaskModal && (
-        <Modal
-          onClose={handleShowModel}
-          show={showCreateTaskModal}
-          title="Create Task"
-        >
-          <Form
-            register={register}
-            buttonLabel="Add task"
-            handleSubmit={handleSubmit}
-            onSubmit={handleCreateTask}
-            error={createTaskError}
-          >
-            <Input
-              label="Add title"
-              name="title"
-              error={errors.title?.message}
-              required
-              register={register}
-            />
-            <DropDown name="status" register={register}>
-              <option value="toDo">toDo</option>
-              <option value="inProgress">inProgress</option>
-              <option value="done">done</option>
-            </DropDown>
-            <DropDown name="priorityLevel" register={register}>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </DropDown>
-            <TextArea name="details" register={register} />
-          </Form>
-        </Modal>
+        <CreateTaskModal
+          handleShow={handleShowModel}
+          showModal={showCreateTaskModal}
+          refetch={refetch}
+        />
       )}
 
       {showViewTaskModal && (

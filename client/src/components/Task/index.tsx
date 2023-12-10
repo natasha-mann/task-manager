@@ -47,8 +47,6 @@ export const Task = ({
   editFn,
   onClick,
 }: TaskProps) => {
-  const handleMoveTask = () => {};
-
   return (
     <>
       <TaskCard
@@ -71,12 +69,7 @@ export const Task = ({
         <CardBody>
           <p>{mapPriorityLevel(priorityLevel)}</p>
         </CardBody>
-        <CardFooter>
-          <ActionButton taskId={_id} onClick={handleMoveTask}>
-            Change Priority
-            {/* <FontAwesomeIcon icon={faHouseLaptop} /> */}
-          </ActionButton>
-        </CardFooter>
+        <CardFooter></CardFooter>
       </TaskCard>
     </>
   );
