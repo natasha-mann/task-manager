@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { CREATE_TASK, DELETE_TASK } from "../constants/api";
+import { CREATE_TASK, DELETE_TASK, UPDATE_TASK } from "../constants/api";
 import { fetchWrapper } from "../utils/fetch";
 import { TaskData } from "../api/useAllTasksQuery";
 
@@ -34,4 +34,19 @@ export const useDeleteTaskMutation = () => {
     },
   });
   return deleteTaskMutation;
+};
+
+export const useUpdateTaskMutation = () => {
+  const updateTaskMutation = useMutation({
+    mutationFn: (requestBody: TaskData) => {
+      return fetchWrapper<TaskResponse>(`${UPDATE_TASK}/${requestBody._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+    },
+  });
+  return updateTaskMutation;
 };

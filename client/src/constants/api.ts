@@ -7,3 +7,4 @@ export const LOGIN_URL = `${AUTH_URL}/login`;
 export const GET_TASKS = `${TASKS_URL}/tasks`;
 export const CREATE_TASK = `${TASKS_URL}/create`;
 export const DELETE_TASK = `${TASKS_URL}/delete`;
+export const UPDATE_TASK = `${TASKS_URL}/update`;

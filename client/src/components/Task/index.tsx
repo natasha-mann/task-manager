@@ -58,9 +58,6 @@ export const Task = ({
         <CardHeader>
           <h3>{title}</h3>
           <ButtonsContainer>
-            <ActionButton taskId={_id} onClick={editFn}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </ActionButton>
             <ActionButton taskId={_id} onClick={deleteFn}>
               <FontAwesomeIcon icon={faTrash} />
             </ActionButton>

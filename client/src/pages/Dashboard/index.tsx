@@ -26,6 +26,7 @@ import { Filter } from "../../components/Filter";
 import { Column } from "../../components/Column";
 import { SearchBar } from "../../components/SearchBar";
 import { CreateTaskModal } from "../../components/CreateTask";
+import { ViewTaskModal } from "../../components/ViewTaskModal";
 
 type SortedTasks = {
   toDo: TaskData[] | [];
@@ -55,7 +56,6 @@ export const Dashboard = () => {
   const [showCreateTaskModal, setShowCreateTaskModal] =
     useState<boolean>(false);
   const [showViewTaskModal, setShowViewTaskModal] = useState<boolean>(false);
-  const [editTaskError, setEditTaskError] = useState<string>("");
 
   const deleteTaskMutation = useDeleteTaskMutation();
 
@@ -72,10 +72,6 @@ export const Dashboard = () => {
       navigate("/login");
     }
   }, [navigate, tasks]);
-
-  const handleShowModel = () => {
-    setShowCreateTaskModal((prev) => !prev);
-  };
 
   const handleDeleteTask = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -134,41 +130,19 @@ export const Dashboard = () => {
     <>
       {showCreateTaskModal && (
         <CreateTaskModal
-          handleShow={handleShowModel}
+          handleShow={() => setShowCreateTaskModal((prev) => !prev)}
           showModal={showCreateTaskModal}
           refetch={refetch}
         />
       )}
 
       {showViewTaskModal && (
-        <Modal onClose={handleCloseViewTask} show={showViewTaskModal}>
-          <Form
-            register={register}
-            buttonLabel="Save Changes"
-            handleSubmit={handleSubmit}
-            onSubmit={handleEditTask}
-            error={editTaskError}
-          >
-            <Input
-              label="Title"
-              name="title"
-              error={errors.title?.message}
-              required
-              register={register}
-            />
-            <DropDown name="status" register={register}>
-              <option value="toDo">toDo</option>
-              <option value="inProgress">inProgress</option>
-              <option value="done">done</option>
-            </DropDown>
-            <DropDown name="priorityLevel" register={register}>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </DropDown>
-            <TextArea name="details" register={register} />
-          </Form>
-        </Modal>
+        <ViewTaskModal
+          handleClose={handleCloseViewTask}
+          showModal={showViewTaskModal}
+          refetch={refetch}
+          selectedTask={selectedTask}
+        />
       )}
       <Page isCentered={true}>
         <DashboardHeader>
@@ -180,7 +154,10 @@ export const Dashboard = () => {
             <Filter onClick={setFilterValue} />
           </div>
           <div>
-            <CTAButton label="Add new task" onClick={handleShowModel} />
+            <CTAButton
+              label="Add new task"
+              onClick={() => setShowCreateTaskModal((prev) => !prev)}
+            />
             <CTAButton
               label={boardView ? "All Tasks" : "Task Board View"}
               onClick={() => setBoardView((prev) => !prev)}
@@ -191,7 +168,10 @@ export const Dashboard = () => {
           {!boardView && !filteredTasks.length && (
             <>
               <h1>No tasks!</h1>
-              <CTAButton label="Add new task" onClick={handleShowModel} />
+              <CTAButton
+                label="Add new task"
+                onClick={() => setShowCreateTaskModal((prev) => !prev)}
+              />
             </>
           )}
           {tasks &&
@@ -234,7 +214,10 @@ export const Dashboard = () => {
                           />
                         ))
                       : null}
-                    <CTAButton label="Add new task" onClick={handleShowModel} />
+                    <CTAButton
+                      label="Add new task"
+                      onClick={() => setShowCreateTaskModal((prev) => !prev)}
+                    />
                   </Column>
                 );
               }

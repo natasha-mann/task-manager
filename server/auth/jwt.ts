@@ -1,4 +1,4 @@
-import jwt, { JwtPayload, Secret } from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { IUser } from "../models/user.model";
 
 const JWT_SECRET: Secret = process.env.JWT_SECRET || "mylocalsecret";

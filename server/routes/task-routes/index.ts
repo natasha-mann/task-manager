@@ -14,6 +14,6 @@ export const tasksRouter = Router();
 tasksRouter.post("/create", auth, createTask);
 tasksRouter.get("/tasks", auth, getAllTasksForUser);
 tasksRouter.get("/:id", auth, getTaskById);
-tasksRouter.put("/update", auth, updateTask);
+tasksRouter.put("/update/:id", auth, updateTask);
 tasksRouter.delete("/delete/:id", auth, deleteTask);
 tasksRouter.delete("/delete/:userId", auth, deleteAllTasksForUser);
