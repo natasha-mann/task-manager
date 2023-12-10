@@ -21,6 +21,9 @@ const Dropbtn = styled.div`
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const DropDownContent = styled.div`
@@ -50,6 +53,7 @@ const SubA = styled.a`
   text-align: left;
   &:hover {
     background-color: #f1f1f1;
+    cursor: pointer;
   }
 `;
 

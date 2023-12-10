@@ -47,7 +47,9 @@ export const TaskColumn = styled.div(
     color: white;
 
     @media (max-width: 768px) {
-      width: 90%;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 2rem;
     }
   `
 );
@@ -55,6 +57,9 @@ export const TaskColumn = styled.div(
 export const TaskColumnHeader = styled.h2(
   () => css`
     font-weight: 500;
+    @media (max-width: 768px) {
+      margin: 1rem 0;
+    }
   `
 );
 

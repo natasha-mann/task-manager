@@ -26,7 +26,11 @@ export const GlobalStyles = createGlobalStyle(
     }
 
     html, body, #root, #root>div {
-      height: 100%
+      height: 100%;
+
+      @media (max-width: 768px) {
+        height: unset;
+      }
     }
   `
 );

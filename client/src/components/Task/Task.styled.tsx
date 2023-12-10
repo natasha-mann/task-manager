@@ -15,10 +15,12 @@ export const TaskCard = styled.div<Pick<TaskProps, "size" | "priorityLevel">>`
   width: ${({ size }) => (size === "large" ? "30%" : null)};
   &:hover {
     cursor: pointer;
+    background-color: ${({ priorityLevel }) =>
+      priorityLevel === "1" ? "#701a1a" : "#9c9c9c"};
   }
 
   @media (max-width: 768px) {
-    width: 90%;
+    width: 95%;
   }
 `;
 
@@ -34,7 +36,6 @@ export const ButtonsContainer = styled.div(
   () => css`
     display: flex;
     justify-content: space-between;
-    width: 25%;
   `
 );
 

@@ -50,7 +50,7 @@ export const Dashboard = () => {
     useState<Partial<Record<keyof TaskData, string>>>();
   const [filteredTasks, setFilteredTasks] = useState<TaskData[]>(tasks ?? []);
 
-  const [boardView, setBoardView] = useState<boolean>(false);
+  const [boardView, setBoardView] = useState<boolean>(true);
 
   const [selectedTask, setSelectedTask] = useState<TaskData | undefined>();
   const [showCreateTaskModal, setShowCreateTaskModal] =
