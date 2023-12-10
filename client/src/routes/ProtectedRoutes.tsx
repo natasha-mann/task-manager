@@ -8,6 +8,6 @@ export const ProtectedRoutes = () => {
   return token ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" replace state={{ from: location }} />
+    <Navigate to="/signup" replace state={{ from: location }} />
   );
 };
