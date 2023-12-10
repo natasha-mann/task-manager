@@ -3,7 +3,7 @@ import { CREATE_TASK, DELETE_TASK, UPDATE_TASK } from "../constants/api";
 import { fetchWrapper } from "../utils/fetch";
 import { TaskData } from "../api/useAllTasksQuery";
 
-type TaskResponse = {
+export type TaskResponse = {
   id: string;
 };
 

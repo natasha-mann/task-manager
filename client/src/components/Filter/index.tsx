@@ -1,6 +1,5 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { CTAButton } from "../CTAButton";
 import { TaskData } from "../../api/useAllTasksQuery";
 
 const StyledUl = styled.ul`

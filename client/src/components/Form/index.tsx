@@ -9,7 +9,7 @@ import {
 } from "./Form.styled";
 import { ReactNode } from "react";
 
-type StyledFormProps = {
+export type StyledFormProps = {
   heading?: string;
   defaultValues?: any;
   children?: ReactNode;
@@ -19,9 +19,11 @@ type StyledFormProps = {
   register?: any;
   className?: string;
   error?: string;
+  type?: "modal" | "normal";
 };
 
 export const Form = ({
+  type = "normal",
   heading,
   buttonLabel = "Submit",
   children,
@@ -33,9 +35,9 @@ export const Form = ({
 }: StyledFormProps) => {
   return (
     <FormContainer>
-      <StyledForm onSubmit={handleSubmit(onSubmit)} {...rest}>
+      <StyledForm type={type} onSubmit={handleSubmit(onSubmit)} {...rest}>
         {heading && <StyledHeading>{heading}</StyledHeading>}
-        <StyledInputsContainer>
+        <StyledInputsContainer type={type}>
           {Array.isArray(children)
             ? children.map((child) => {
                 return child.props.name

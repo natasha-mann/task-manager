@@ -8,6 +8,7 @@ import {
 } from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
+import { CenteredFlexContainer } from "../../components/Layout.styled";
 
 export type SignupData = {
   firstName: string;
@@ -45,40 +46,42 @@ export const Signup = () => {
 
   return (
     <Page isCentered={true} hasBackgroundImage={true}>
-      <Form
-        heading="Welcome to Taskify"
-        register={register}
-        buttonLabel="Register"
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        error={signupError}
-      >
-        <Input
-          name="firstName"
-          placeholder="Please enter your first name"
-          error={errors.firstName?.message}
-          required
-        />
-        <Input
-          name="lastName"
-          placeholder="Please enter your last name"
-          error={errors.lastName?.message}
-          required
-        />
-        <Input
-          name="email"
-          placeholder="Please enter your email address"
-          error={errors.email?.message}
-          required
-        />
-        <Input
-          name="password"
-          type="password"
-          placeholder="Please choose a password"
-          error={errors.password?.message}
-          required
-        />
-      </Form>
+      <CenteredFlexContainer>
+        <Form
+          heading="Welcome to Taskify"
+          register={register}
+          buttonLabel="Register"
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          error={signupError}
+        >
+          <Input
+            name="firstName"
+            placeholder="Please enter your first name"
+            error={errors.firstName?.message}
+            required
+          />
+          <Input
+            name="lastName"
+            placeholder="Please enter your last name"
+            error={errors.lastName?.message}
+            required
+          />
+          <Input
+            name="email"
+            placeholder="Please enter your email address"
+            error={errors.email?.message}
+            required
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Please choose a password"
+            error={errors.password?.message}
+            required
+          />
+        </Form>
+      </CenteredFlexContainer>
     </Page>
   );
 };

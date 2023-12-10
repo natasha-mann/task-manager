@@ -1,11 +1,9 @@
-import styled, { css } from "styled-components";
 import { Page } from "../../components/Page";
 import {
   DashboardHeader,
   ManageBoardControls,
   StyledHeading,
   TaskBoard,
-  TaskColumn,
   TaskColumnHeader,
 } from "./Dashboard.styled";
 import { useCallback, useEffect, useState } from "react";
@@ -14,19 +12,16 @@ import { getTokenFromCookie } from "../../utils/cookies";
 import { TaskData, useAllTasksQuery } from "../../api/useAllTasksQuery";
 import { Task } from "../../components/Task";
 import { CTAButton } from "../../components/CTAButton";
-import { Modal } from "../../components/Modal";
-import { Form } from "../../components/Form";
-import { DropDown, Input, TextArea } from "../../components/Input";
-import { useForm } from "react-hook-form";
+
 import {
   useCreateTaskMutation,
   useDeleteTaskMutation,
+  useUpdateTaskMutation,
 } from "../../services/TaskService";
 import { Filter } from "../../components/Filter";
 import { Column } from "../../components/Column";
 import { SearchBar } from "../../components/SearchBar";
-import { CreateTaskModal } from "../../components/CreateTask";
-import { ViewTaskModal } from "../../components/ViewTaskModal";
+import { TaskModal } from "../../components/TaskModal";
 
 type SortedTasks = {
   toDo: TaskData[] | [];
@@ -58,13 +53,8 @@ export const Dashboard = () => {
   const [showViewTaskModal, setShowViewTaskModal] = useState<boolean>(false);
 
   const deleteTaskMutation = useDeleteTaskMutation();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<Omit<TaskData, "_id">>();
+  const createTaskMutation = useCreateTaskMutation();
+  const updateTaskMutation = useUpdateTaskMutation();
 
   useEffect(() => {
     const token = getTokenFromCookie();
@@ -105,11 +95,6 @@ export const Dashboard = () => {
     setShowViewTaskModal((prev) => !prev);
   };
 
-  const handleCloseViewTask = () => {
-    setShowViewTaskModal((prev) => !prev);
-    reset();
-  };
-
   useEffect(() => {
     if (filterValue) {
       const [[key, value]] = Object.entries(filterValue);
@@ -129,19 +114,23 @@ export const Dashboard = () => {
   return (
     <>
       {showCreateTaskModal && (
-        <CreateTaskModal
-          handleShow={() => setShowCreateTaskModal((prev) => !prev)}
+        <TaskModal
+          title="Create Task"
+          handleClose={() => setShowCreateTaskModal((prev) => !prev)}
           showModal={showCreateTaskModal}
           refetch={refetch}
+          submitMutation={createTaskMutation}
         />
       )}
 
       {showViewTaskModal && (
-        <ViewTaskModal
-          handleClose={handleCloseViewTask}
+        <TaskModal
+          title={selectedTask?.title ?? undefined}
+          handleClose={() => setShowViewTaskModal((prev) => !prev)}
           showModal={showViewTaskModal}
           refetch={refetch}
           selectedTask={selectedTask}
+          submitMutation={updateTaskMutation}
         />
       )}
       <Page isCentered={true}>
@@ -194,7 +183,7 @@ export const Dashboard = () => {
             Object.entries(sortTasks(filteredTasks)).map(
               ([priority, tasks]) => {
                 return (
-                  <Column>
+                  <Column key={priority}>
                     <TaskColumnHeader>
                       {priority === "todo"
                         ? "TO DO"

@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { storeSessionData, useLoginMutation } from "../../services/AuthService";
 import { Form } from "../../components/Form";
 import { useState } from "react";
+import styled from "styled-components";
+import { CenteredFlexContainer } from "../../components/Layout.styled";
 
 export type LoginData = {
   email: string;
@@ -37,28 +39,30 @@ export const Login = () => {
 
   return (
     <Page isCentered={true} hasBackgroundImage={true}>
-      <Form
-        heading="Login to Taskify"
-        register={register}
-        buttonLabel="Login"
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        error={loginError}
-      >
-        <Input
-          name="email"
-          placeholder="Please enter your email address"
-          error={errors.email?.message}
-          required
-        />
-        <Input
-          name="password"
-          type="password"
-          placeholder="Please enter your password"
-          error={errors.password?.message}
-          required
-        />
-      </Form>
+      <CenteredFlexContainer>
+        <Form
+          heading="Login to Taskify"
+          register={register}
+          buttonLabel="Login"
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          error={loginError}
+        >
+          <Input
+            name="email"
+            placeholder="Please enter your email address"
+            error={errors.email?.message}
+            required
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Please enter your password"
+            error={errors.password?.message}
+            required
+          />
+        </Form>
+      </CenteredFlexContainer>
     </Page>
   );
 };

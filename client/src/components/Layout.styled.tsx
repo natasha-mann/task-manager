@@ -21,3 +21,16 @@ export const LayoutWithBackground = styled(StyledLayout)(
     background-size: cover;
   `
 );
+
+export const CenteredFlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
+export const FlexDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

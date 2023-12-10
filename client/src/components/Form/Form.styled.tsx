@@ -1,22 +1,20 @@
 import styled, { css } from "styled-components";
+import { StyledFormProps } from ".";
 
 export const FormContainer = styled.div(
   () => css`
     display: flex;
-    align-items: center;
-    height: 100vh;
     justify-content: center;
   `
 );
 
-export const StyledForm = styled.form(
-  () => css`
-    width: 40vw;
-    background-color: black;
-    border-radius: 10%;
-    padding: 1.5rem;
-  `
-);
+export const StyledForm = styled.form<Pick<StyledFormProps, "type">>`
+  width: 40vw;
+  width: ${({ type }) => (type === "modal" ? "100%" : "40vw")};
+  background-color: ${({ type }) => (type === "modal" ? "none" : "black")};
+  border-radius: 10%;
+  padding: 2rem;
+`;
 
 export const StyledButton = styled.button(
   () => css`
@@ -37,25 +35,19 @@ export const StyledButton = styled.button(
   `
 );
 
-export const StyledInputsContainer = styled.div(
-  () => css`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-  `
-);
+export const StyledInputsContainer = styled.div<Pick<StyledFormProps, "type">>`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: ${({ type }) => (type === "modal" ? "flex-start" : "center")};
+`;
 
-export const StyledHeading = styled.h1(
-  () => css`
-    color: white;
-    text-align: center;
-    margin-bottom: 1rem;
-  `
-);
+export const StyledHeading = styled.h1`
+  color: white;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
 
-export const FormError = styled.p(
-  () => css`
-    color: red;
-  `
-);
+export const FormError = styled.p`
+  color: red;
+`;

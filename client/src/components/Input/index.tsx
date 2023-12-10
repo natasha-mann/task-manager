@@ -1,5 +1,11 @@
 import React, { InputHTMLAttributes, PropsWithChildren } from "react";
-import { StyledInputField } from "./Input.styled";
+import {
+  StyledInputContainer,
+  StyledInputField,
+  StyledLabel,
+  StyledSelect,
+  StyledTextArea,
+} from "./Input.styled";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -43,12 +49,16 @@ export const DropDown = ({
   register,
   name,
   required,
+  label,
   ...rest
 }: DropDownProps) => {
   return (
-    <select {...register(name, { required: required })} {...rest}>
-      {children}
-    </select>
+    <StyledInputContainer>
+      {label && <StyledLabel>{label}</StyledLabel>}
+      <StyledSelect {...register(name, { required: required })} {...rest}>
+        {children}
+      </StyledSelect>
+    </StyledInputContainer>
   );
 };
 
@@ -58,5 +68,11 @@ export const TextArea = ({
   required,
   ...rest
 }: TextAreaProps) => {
-  return <textarea {...register(name, { required: required })} {...rest} />;
+  return (
+    <StyledTextArea
+      placeholder="Add your task details here..."
+      {...register(name, { required: required })}
+      {...rest}
+    />
+  );
 };
