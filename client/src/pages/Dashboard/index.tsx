@@ -61,7 +61,13 @@ export const Dashboard = () => {
     if (!token) {
       navigate("/login");
     }
-  }, [navigate, tasks]);
+
+    try {
+      refetch();
+    } catch (error) {
+      navigate("/login");
+    }
+  }, [navigate, refetch, tasks]);
 
   const handleDeleteTask = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
